@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+issueTrackerURL="https://github.com/gasharaujo/gash_quick_commands/issues"
+[[mods]]
+modId="gash_quick_commands"
+version="${mod_version}"
+displayName="Gash's Quick Commands"
+authors="Gasharaujo"
+description='''Client-side command lists, sequential chat sends, per-list key bindings and conflict diagnostics.'''
+displayTest="IGNORE_ALL_VERSION"
+[[dependencies.gash_quick_commands]]
+modId="forge"
+mandatory=true
+versionRange="[47.4.10,)"
+ordering="NONE"
+side="CLIENT"
+[[dependencies.gash_quick_commands]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,)"
+ordering="NONE"
+side="CLIENT"
+[[dependencies.gash_quick_commands]]
+modId="configured"
+mandatory=false
+versionRange="[0,)"
+ordering="AFTER"
+side="CLIENT"

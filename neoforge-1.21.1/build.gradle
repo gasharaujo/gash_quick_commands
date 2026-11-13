@@ -1,0 +1,32 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.143'
+}
+version = mod_version
+group = 'net.gasharaujo.gqc'
+base.archivesName = 'gash_quick_commands-neoforge-1.21.1'
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.withSourcesJar()
+sourceSets.main.java.srcDir('../common/src/main/java')
+sourceSets.main.resources.srcDir('../common/src/main/resources')
+sourceSets.main.java.srcDir('../legacy-ui/src/main/java')
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.release = 21 }
+processResources {
+    inputs.property('mod_version', mod_version)
+    filesMatching('META-INF/*.toml') { expand(mod_version: mod_version) }
+}
+neoForge {
+    version = loader_version
+    runs { client { client(); gameDirectory = project.file('run-client') } }
+    mods { gash_quick_commands { sourceSet sourceSets.main } }
+}
+
+// Plain JVM tests cover persistence, validation and sequence timing without launching Minecraft.
+sourceSets { coreTest { java.srcDir '../verification'; compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath; runtimeClasspath += output + compileClasspath } }
+tasks.register('coreTest', JavaExec) {
+    dependsOn tasks.named('coreTestClasses')
+    classpath = sourceSets.coreTest.runtimeClasspath
+    mainClass = 'net.gasharaujo.gqc.CoreChecks'
+}
+tasks.named('check') { dependsOn tasks.named('coreTest') }
