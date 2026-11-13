@@ -34,14 +34,16 @@ try {
             & '.\gradlew.bat' @arguments
             if ($LASTEXITCODE -ne 0) { throw "Build failed: $($target.Module)" }
         } finally { Pop-Location }
-        $jar = Get-ChildItem -LiteralPath (Join-Path $module 'build/libs') -File -Filter '*.jar' |
-            Where-Object { $_.Name -notmatch '-sources\.jar$' } | Select-Object -First 1
+        $versionProperty = Select-String -LiteralPath (Join-Path $module 'gradle.properties') -Pattern '^mod_version=(.+)$'
+        $version = $versionProperty.Matches[0].Groups[1].Value.Trim()
+        $jar = Get-Item -LiteralPath (Join-Path $module "build/libs/gash_quick_commands-$($target.Module)-$version.jar")
         Copy-Item -LiteralPath $jar.FullName -Destination (Join-Path $artifacts $jar.Name) -Force
         if ($Install) {
             $mods = Join-Path $env:USERPROFILE "curseforge/minecraft/Instances/$($target.Instance)/mods"
             if (-not (Test-Path -LiteralPath $mods)) { throw "Test instance not found: $mods" }
             foreach ($old in (Get-ChildItem -LiteralPath $mods -Filter 'gash_quick_commands-*.jar' -File)) {
                 if ($old.Name -ne $jar.Name) {
+                    if ($old.DirectoryName -ne (Get-Item -LiteralPath $mods).FullName) { throw "Unexpected mod path: $($old.FullName)" }
                     Move-Item -LiteralPath $old.FullName -Destination ($old.FullName + '.disabled-' + [DateTimeOffset]::Now.ToUnixTimeMilliseconds())
                 }
             }

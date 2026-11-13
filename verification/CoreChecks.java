@@ -81,9 +81,20 @@ public final class CoreChecks {
             check(chat.equals(List.of("hello")), "plain chat uses chat entry point");
             check(history.equals(List.of("/say hello", "hello", "/gqc")), "each nonblank line recorded once");
             check(CommandExamples.ALL.size() == 4, "four requested examples");
-            check(CommandExamples.append("", CommandExamples.ALL.get(0)).equals("ola\nmundo"), "hello example preserves two sends");
-            check(CommandExamples.append("/existing", CommandExamples.ALL.get(0)).equals("/existing\nola\nmundo"), "example appends without replacing draft");
-            check(CommandExamples.append("/existing\n", CommandExamples.ALL.get(0)).equals("/existing\nola\nmundo"), "example avoids extra empty line");
+            check(CommandExamples.commands(CommandExamples.ALL.get(0)).equals("ola\nmundo"), "hello example preserves two sends");
+            ListStore exampleStore = new ListStore(dir.resolve("examples.json"));
+            CommandList existing = new CommandList(UUID.randomUUID(), "my list", List.of("/existing"), 125,
+                    "key.keyboard.h", "CONTROL");
+            exampleStore.save(existing);
+            for (CommandExamples.Example example : List.of(CommandExamples.ALL.get(0), CommandExamples.ALL.get(1))) {
+                exampleStore.save(new CommandList(existing.id(), existing.name(),
+                        ListStore.parseLines(CommandExamples.commands(example)), existing.delayMs(), existing.key(), existing.modifier()));
+                CommandList applied = exampleStore.lists().get(0);
+                check(exampleStore.lists().size() == 1 && applied.lines().equals(example.lines())
+                        && applied.name().equals(existing.name()) && applied.delayMs() == 125
+                        && applied.key().equals(existing.key()) && applied.modifier().equals(existing.modifier()),
+                        "switching examples replaces commands and preserves list settings");
+            }
             check(CommandExamples.ALL.get(1).lines().size() == 5 && CommandExamples.ALL.get(2).lines().size() == 3
                 && CommandExamples.ALL.get(3).lines().size() == 10, "requested command counts");
             System.out.println("PASS: " + checks + " core checks");

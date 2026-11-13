@@ -18,6 +18,8 @@
   "gqc.capture.tip": "Clique para definir. Esc / Delete / Backspace limpa. Aceita Ctrl, Alt ou Shift + tecla.",
   "gqc.save": "Salvar",
   "gqc.run": "Executar",
+  "gqc.quick_cast": "Execução rápida: %s",
+  "gqc.quick_cast.tip": "Execução rápida: %s\nExecuta esta lista salva com o delay configurado.",
   "gqc.delete": "Excluir",
   "gqc.delete.confirm": "Excluir esta lista de comandos?",
   "gqc.default_delay": "Delay padrão entre envios (ms)",
@@ -44,7 +46,7 @@
   "gqc.error.busy": "Há uma sequência em execução. Pare-a antes de iniciar outra.",
   "gqc.error.send": "Sequência interrompida por falha no envio. Confira o log.",
   "gqc.examples": "Exemplos",
-  "gqc.examples.hint": "Escolha um exemplo para acrescentar à lista atual.",
-  "gqc.examples.save_hint": "As linhas existentes são mantidas. Salve a lista depois.",
-  "gqc.example_added": "Exemplo adicionado. Salve para manter."
+  "gqc.examples.hint": "Escolha um exemplo para substituir os comandos da lista.",
+  "gqc.examples.save_hint": "Nome, delay e atalho são mantidos. Salve a lista depois.",
+  "gqc.example_loaded": "Exemplo carregado. Salve para manter."
 }

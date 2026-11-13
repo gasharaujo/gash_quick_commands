@@ -18,6 +18,8 @@
   "gqc.capture.tip": "Click to bind. Escape / Delete / Backspace clears. Ctrl, Alt or Shift + key is supported.",
   "gqc.save": "Save",
   "gqc.run": "Run",
+  "gqc.quick_cast": "Quick-cast %s",
+  "gqc.quick_cast.tip": "Quick-cast: %s\nRun this saved list using its configured delay.",
   "gqc.delete": "Delete",
   "gqc.delete.confirm": "Delete this command list?",
   "gqc.default_delay": "Default delay between sends (ms)",
@@ -44,7 +46,7 @@
   "gqc.error.busy": "A sequence is running. Stop it before starting another.",
   "gqc.error.send": "Sequence stopped because a send failed. Check the log.",
   "gqc.examples": "Examples",
-  "gqc.examples.hint": "Choose an example to append its lines to this list.",
-  "gqc.examples.save_hint": "Existing lines are kept. Save the list afterwards.",
-  "gqc.example_added": "Example added. Save to keep it."
+  "gqc.examples.hint": "Choose an example to replace this list's commands.",
+  "gqc.examples.save_hint": "Name, delay and key binding are kept. Save afterwards.",
+  "gqc.example_loaded": "Example loaded. Save to keep it."
 }

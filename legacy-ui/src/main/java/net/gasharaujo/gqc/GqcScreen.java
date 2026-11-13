@@ -70,8 +70,8 @@ public final class GqcScreen extends Screen {
         int row = 0;
         for (CommandExamples.Example example : CommandExamples.ALL) {
             Button pick = button(Component.literal(example.name()), left + 8, 84 + row++ * 28, panelWidth - 16, () -> {
-                draftText = CommandExamples.append(draftText, example);
-                dirty = true; settings = false; examples = false; status = "gqc.example_added"; init();
+                draftText = CommandExamples.commands(example);
+                dirty = true; settings = false; examples = false; status = "gqc.example_loaded"; init();
             });
             pick.setTooltip(Tooltip.create(Component.literal(String.join("\n", example.lines()))));
         }
@@ -84,9 +84,14 @@ public final class GqcScreen extends Screen {
         for (int i = page * rows(); i < Math.min(lists.size(), (page + 1) * rows()); i++) {
             CommandList l = lists.get(i);
             Button row = button(Component.literal((l.id().equals(selected) ? "> " : "") + l.name()),
-                    left, 79 + (i % rows()) * 24, side,
+                    left, 79 + (i % rows()) * 24, side - 24,
                     () -> discardThen(() -> { select(l); status = ""; capturing = false; init(); }));
             row.setTooltip(Tooltip.create(Component.literal(l.name() + " (" + l.lines().size() + ")")));
+            addRenderableWidget(Button.builder(Component.literal("\u25B6"), b -> {
+                if (GqcClient.run(List.of(l))) status = "gqc.started";
+            }).bounds(left + side - 20, 79 + (i % rows()) * 24, 20, 20)
+                    .tooltip(Tooltip.create(t("gqc.quick_cast.tip", l.name())))
+                    .createNarration(ignored -> Component.translatable("gqc.quick_cast", l.name())).build());
         }
         button(Component.literal("<"), left, height - 72, 26, () -> { page = Math.max(0, page - 1); init(); });
         button(Component.literal(">"), left + side - 26, height - 72, 26,

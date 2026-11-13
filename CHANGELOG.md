@@ -1,3 +1,10 @@
+# 1.0.1
+
+- Botão de execução rápida **▶** ao lado de cada lista salva, nas três versões do mod.
+- O botão executa a lista com seu delay configurado e preserva as alterações abertas no editor.
+- Escolher um exemplo substitui os comandos atuais, mantendo o nome, o delay e o atalho da lista.
+- Instalação de builds seleciona o JAR da versão atual mesmo quando existem builds anteriores na pasta.
+
 # 1.0.0
 
 - Primeira versão para Forge 1.20.1, NeoForge 1.21.1 e NeoForge 26.1.2.

@@ -31,9 +31,7 @@ public final class CommandExamples {
             "/ftbranks node add member ftbessentials.warp.warmup 0"))
     );
     private CommandExamples() { }
-    public static String append(String current, Example example) {
-        String added = String.join("\n", example.lines());
-        if (current.isEmpty()) return added;
-        return current + (current.endsWith("\n") ? "" : "\n") + added;
+    public static String commands(Example example) {
+        return String.join("\n", example.lines());
     }
 }
